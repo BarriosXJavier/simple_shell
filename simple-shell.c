@@ -1,65 +1,56 @@
-nclude <stdio.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-#define MAX_CMD_LEN 128
-#define HISTORY_COUNT 20
+#define BUFSIZE 1024
 
-int main() {
+int main(void) {
+	char *line = NULL;
+	size_t bufsize = 0;
+	
+	ssize_t lineSize;
+	char *argv[] = {"/bin/", NULL, NULL};
+	pid_t child_pid;
+	int child_status;
 
-	char cmd[MAX_CMD_LEN];
-	char* args[2];
-	pid_t pid;
-	int status;
-
-	while(1) {
-
-	// Print command prompt
-
-	printf("simple_shell> ");
-	if(fgets(cmd, sizeof(cmd), stdin) == NULL)
-	{ 
-		// end-of-file
-		printf("\n");
-		exit(0);
-	}
-
-    // Remove trailing newline
-
-	if (cmd[strlen(cmd)-1] == '\n') 
+	while (1)
 	{
-		cmd[strlen(cmd)-1] = '\0';
-	}
+		printf("($) ");
+		lineSize = getline(&line, &bufsize, stdin);
 
-	args[0] = cmd; // the command itself
-	args[1] = NULL; // no additional arguments
+		if (lineSize == -1) 
+		{
+			perror("Error");
+			continue;
+		}
 
-	if((pid = fork()) < 0)
+	argv[1] = line;
+	argv[1][lineSize - 1] = '\0';
+
+	child_pid = fork();
+
+	if (child_pid == -1) 
 	{
-		printf("Error: Cannot create new process.\n");
+		perror("Error");
 		continue;
 	}
-
-	if(pid == 0)
-	{
-		// Replace current process image with new program
-		execve(args[0], args, NULL);
-
-		// execve() only returns on error
-		perror("execve");
-		exit(1);
-	} else {
-
-		// Parent process waits for child to finish
-		wait(&status);
-
-		if (WIFEXITED(status) && (WEXITSTATUS(status) != 0))
+	if (child_pid == 0)
 		{
-			printf("Error: command not found: %s\n", cmd);
+			execve(argv[0], argv, NULL);
+			perror("Error");
+			_exit(1);
+		} else
+		
+		{
+			wait(&child_status);
+			if (WIFEXITED(child_status) && (WEXITSTATUS(child_status) != 0)) {
+			printf("Error: command not found: %s\n", argv[1]);
+		}
 		}
 	}
-	}
 
-	return 0;
+	free(line);
+	return (0);
 }
