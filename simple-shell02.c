@@ -8,7 +8,7 @@
 #define BUFSIZE 1024
 #define MAX_ARGS 10
 
-int main(void)
+void simple_shell02(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
@@ -16,6 +16,9 @@ int main(void)
 	char *argv[MAX_ARGS+2]; /* +2 to include space for the command and NULL terminator */
 	pid_t child_pid;
 	int child_status;
+	char *token;
+        int i = 0;
+        token = strtok(line, " "); /* Tokenize the input */
 
 	while (1) {
 		printf("($) ");
@@ -27,17 +30,14 @@ int main(void)
 			continue;
 		}
 
-	line[lineSize - 1] = '\0'; // Remove the newline character
+	line[lineSize - 1] = '\0'; /* Remove the newline character */
 
-	char *token;
-	int i = 0;
-	token = strtok(line, " "); // Tokenize the input
 	while (token != NULL && i < MAX_ARGS) {
 		argv[i] = token;
 		token = strtok(NULL, " ");
 		i++;
 	}
-	argv[i] = NULL; // Set the last element to NULL as required by execve
+	argv[i] = NULL; /* Set the last element to NULL as required by execve */
 
 	child_pid = fork();
 
@@ -46,7 +46,7 @@ int main(void)
 		continue;
 	}
 	if (child_pid == 0) {
-		execvp(argv[0], argv); // Use execvp to search for the command in PATH
+		execvp(argv[0], argv); /* Use execvp to search for the command in PATH */
 		perror("Error");
 		_exit(1);
         } else {
@@ -58,5 +58,4 @@ int main(void)
 	}
 
 	free(line);
-	return (0);
 }

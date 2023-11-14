@@ -6,7 +6,7 @@
 
 #define BUFSIZE 1024
 
-int main(void) {
+void simple_shell(void) {
 	char *line = NULL;
 	size_t bufsize = 0;
 	
@@ -52,5 +52,4 @@ int main(void) {
 	}
 
 	free(line);
-	return (0);
 }

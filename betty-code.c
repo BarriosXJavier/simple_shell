@@ -1,44 +1,46 @@
 #include <stdio.h>
-  2
-  3 int main()
-  4 {
+
+void betty_code(void)
+{
 	char operator;
 	double num1;
 	double num2;
 	double result;
-  9
-	printf("What operator would you like to use(+, -, *, /):\n");
+
+	/* Prompt for the operator */
+
+	printf("What operator would you like to use (+, -, *, /): \n");
 	scanf("%c", &operator);
- 12
- 13	printf("Enter num1:\t");
- 14	scanf("%lf", &num1);
- 15
- 16	printf("Enter num2: \t");
- 17	scanf("%lf", &num2);
- 18
- 19	switch(operator)
- 20	{
- 21	case '+':
- 22		result = num1 + num2;
- 23		printf("%.2lf + %.2lf = %.2lf\n", num1, num2, result);
- 24     break;
- 25	case '-':
- 26		result = num1 - num2;
- 27		printf("%.2lf - %.2lf = %.2lf\n", num1, num2, result);
- 28	break;
- 29	case '*':
- 30		result = num1 * num2;
- 31		printf("%.2lf * %.2lf = %.2lf\n", num1, num2, result);
- 32	break;
- 33	case '/':
- 34		result = num1 / num2;
- 35		printf("%.2lf / %.2lf = %.2lf\n", num1, num2, result);
- 36		break;
- 37
- 38	default:
- 39	printf("Please enter one of the available operators\n");
- 40	}
-	return 0;
+
+	/* Prompt for num1 and num2 */
+
+	printf("Enter num1: ");
+	scanf("%lf", &num1);  /* Use %lf for double values */
+	printf("Enter num2: ");
+	scanf("%lf", &num2);  /* Use %lf for double values */
+
+	switch (operator) {
+		case '+':
+			result = num1 + num2;
+			printf("%.2f + %.2f = %.2f\n", num1, num2, result);
+		break;
+		case '-':
+			result = num1 - num2;
+			printf("%.2f - %.2f = %.2f\n", num1, num2, result);
+		break;
+		case '*':
+			result = num1 * num2;
+			printf("%.2f * %.2f = %.2f\n", num1, num2, result);
+		break;
+		case '/':
+			if (num2 != 0) {
+				result = num1 / num2;
+				printf("%.2f / %.2f = %.2f\n", num1, num2, result);
+		} else {
+			printf("Error: Division by zero is not allowed.\n");
+		}
+		break;
+		default:
+			printf("Please enter one of the available operators.\n");
+	}
 }
-
-
