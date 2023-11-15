@@ -8,8 +8,7 @@
 
 void simple_shell(void) {
 	char *line = NULL;
-	size_t bufsize = 0;
-	
+	size_t bufsize = 0;	
 	ssize_t lineSize;
 	char *argv[] = {"/bin/", NULL, NULL};
 	pid_t child_pid;
@@ -17,7 +16,7 @@ void simple_shell(void) {
 
 	while (1)
 	{
-		printf("($) ");
+		printf("(myShell$) ");
 		lineSize = getline(&line, &bufsize, stdin);
 
 		if (lineSize == -1) 

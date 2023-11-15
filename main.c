@@ -2,7 +2,6 @@
 #include "simple_shell.h"
 
 int main(void) {
-    betty_code();
     env();
     custom_exit();
     handle_path();

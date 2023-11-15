@@ -1,9 +1,6 @@
 #ifndef SIMPLE_SHELL_H
 #define SIMPLE_SHELL_H
 
-/* Declarations for betty-code.c */
-void betty_code(void);
-
 /* Declarations for env.c */
 void env(void);
 
