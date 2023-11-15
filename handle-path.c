@@ -10,15 +10,18 @@
 
 void handle_path(void)
 {
-    char *line = NULL;
-    size_t bufsize = 0;
-    ssize_t lineSize;
-    char *argv[MAX_ARGS + 2]; /* +2 to include space for the command and NULL terminator */
-    pid_t child_pid;
-    int child_status;
-    int i = 0;
-    char *token;
-    token = strtok(line, " "); /* Tokenize the input string */
+	char *line = NULL;
+	size_t bufsize = 0;
+	ssize_t lineSize;
+	/*+2 space for the cmd & NULL terminator */
+
+	char *argv[MAX_ARGS + 2];
+	pid_t child_pid;
+	int child_status;
+	int i = 0;
+	char *token;
+	/*Tokenize the input string*/
+	token = strtok(line, " ");
 
     while (1)
     {
@@ -31,7 +34,7 @@ void handle_path(void)
             continue;
         }
 
-        line[lineSize - 1] = '\0'; /* Remove the newline character */
+        line[lineSize - 1] = '\0';
 
         while (token != NULL && i < MAX_ARGS)
         {
